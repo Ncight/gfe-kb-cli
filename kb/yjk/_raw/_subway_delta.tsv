@@ -1,0 +1,109 @@
+yjk_refresh_bot	柱墙自动向下探伸
+yjk_Edit_Param	成批修改构件的布置参数
+yjkpool_setjcpara	
+yjk_app_raft_thick	在筏板上布置加厚区
+YJK_Subway_App_Lower_Raft	
+YJK_Del_Lower_Raft	
+yjk_arrange_dj	
+yjk_dj_autodlg	
+yjk_dj_auto	
+yjk_fbeam_onewall	
+yjk_fbeam_doublewall	
+yjk_pile_sel	
+yjk_arrange_dais	
+yjk_dais_auto_dlg	
+yjk_dais_auto	
+yjk_dais_random	
+yjk_dais_unite	
+yjk_dais_round	在桩心连线布置承台
+yjk_dais_round_random	
+yjk_dais_merge	
+yjk_pile_group	
+yjk_pile_beam	
+yjk_pilel_raft	
+yjk_pile_copy	
+yjk_pile_move	
+yjk_pile_mirror	
+yjk_cal_pilel	
+yjk_cal_pilel_txt	
+yjk_pile_modifypilelen	
+yjk_dais_pilenums	
+yjk_xiaohe_pile	
+yjk_clear_tempobj	
+yjk_pile_peijin_para	
+yjk_delete_pile_peijin_para	
+yjk_modify_botz	
+yjk_modify_soilk	
+yjk_modify_pilek	
+yjk_modify_soilcap	
+yjk_modify_soilH	
+YJKSubway_LoadCombFactor	
+YJKSubway_LoadCombTable	
+YJK_Subway_ElemProperty_AutoByBtmSlab	
+YJK_Subway_ElemProperty_TopSlab	
+YJK_Subway_ElemProperty_OuterWall	
+YJK_Subway_Set_OutDesign	
+YJK_Subway_ElemProperty_AntiFloatBeam	
+YJK_Subway_ChangeWallDir	
+YJK_NoCollinear_DiaphragmWall	
+YJK_NoCollinear_DiaphragmWallDel	
+YJK_Subway_ResotreDefaultPara_Load	
+YJK_Subway_ResotreDefaultPara_Boundary	
+YJK_Subway_ResotreDefaultPara_All	
+yjk_subway_setlmhz	
+yjk_subway_dellmhz	
+yjk_tempload_add	
+yjk_tempload_del	
+yjk_subway_autocalload	
+YJKSubway_UserDocument	用户手册
+YJK_Boundry_AntiFloatBeam	
+YJK_Subway_Boundry_HoriSpring_Show	
+YJK_Subway_Boundry_HoriSpring_Hide	
+YJK_Subway_SetStandardZone	
+yjkpool_basecaloption	
+yjkpool_genpooldata	生成计算所需数据并给出数据检查文件
+yjkpool_genjcdata	
+yjkpool_drawsoilk	
+yjkpool_drawrebarangle	
+yjkpool_drawplateload	
+yjkpool_drawplateloadcustom	显示、修改自定义工况板面荷载
+yjkpool_drawsoilgload	
+yjkpool_drawplatethick	
+YJKSPRE_CLMU_CLNCYEX	
+YJKSPRE_SHOWLCS	
+yjkdesign_dsnCalculatingSubway_All	将生成计算所需数据和全部计算(含实配钢筋)连续进行
+YJKDisplay_dspSubway_PRBeamFL	压顶梁反力
+YJKDisplay_dspCutSection_Mileage	里程设置
+YJKDisplay_dspCutSection_SectionSymbolOption	剖面设置
+YJKDisplay_dspDrawCutSection_ID	构件简图
+YJKDisplay_dspDrawCutSection_Load	荷载简图
+YJKDisplay_dspDrawCutSection_NL	内力简图
+YJKDisplay_dspDrawCutSection_Dis	位移简图
+YJKDisplay_dspDrawCutSection_PJ	配筋简图
+yjkdesignexport_dsnSubwayReport	剖面计算书
+YJKDisplay_dspResetProData	多塔工程分塔模型切换
+YJKDisplay_dspResetSQKJData	少墙框架模型切换
+YJKDisplay_dspResetXNSJData	性能设计子模型切换
+YJKDisplay_dspResetXNSJGZData	隔震性能设计子模型切换
+YJKDisplay_dspResetSubwayData	地铁设计子模型切换
+yjkpool_basecalcu2	
+BaseDraw_DrawPlateLoadCustom	显示自定义工况板面荷载
+XSteel_JGTPltFace	
+XSteel_JGTModify	
+_lockreference	解锁锁定衬图
+StTool_LoadData	读数据 画底图
+StTool_FrmParamDlg	参数设置
+StTool_RoofAuto	自动布置屋面
+StTool_RoofPurlineCalc	檩条隅撑计算
+StTool_CreateWall	生成墙面
+StTool_DealDoor	设置门窗
+StTool_WalllineCalc	墙檩隅撑计算
+StTool_RoofWall3d	屋面墙面三维图
+dtlrc_SetSlabSectLayer	剖面图图层设置
+dtlrc_SetColSectLayer	剖面图图层设置
+dtlrc_SetWallSectLayer	剖面图图层设置
+DtlRC_SetSectLayerMpc	剖面图图层设置
+dtlPcG_MpcUpdateRein	从施工图读入配筋信息
+dtlPcG_MpcFrameCounterSign	图签设置
+dtlPcG_MpcCopyFlr	楼层复制
+DtlRC_MpcDrawFrameTemplateSect	指定剖切线位置绘制剖面模板图
