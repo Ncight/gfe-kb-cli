@@ -1,88 +1,107 @@
 ---
 name: GFE-autobuilding
-description: 端到端 GFE/PrePo(广州颖力岩土有限元)自动建模——①在线查命令流知识库(787 API签名/能力矩阵/149避坑/15案例/wiki关联) ②FreeCAD MCP 实时建/改几何调参出STEP ③GFE noGUI 命令流(导几何→坐标分拣→网格→截面材料→施工分析生死单元→导INP)。当用户要 GFE 建模/参数化建几何/车站/基坑/SSI/施工分析/调参重跑、问 GFE 命令流某 API 怎么写、查 GFE 避坑或案例、或要 DWG断面→几何→GFE 全自动管线时使用。既能建模又能调参。未装 FreeCAD程序/freecad-MCP/DWG转DXF工具时主动提示安装。
+description: 端到端 GFE/PrePo(广州颖力岩土有限元)自动建模——能力盘式,AI 按「明确需求→对照能力→调用」三步自主编排,不套固定流程。能力:⓪在线查命令流知识库(API/避坑/能力矩阵/案例/挂接) · 建模端(A1 YJK正交结构带配筋 / A2 FreeCAD异形几何 / A3 GFE原生draft / A4 直导STEP·INP·ydb) · GFE处理(几何组织/土体/网格含copy_mesh析取/材料截面/连接边界/荷载/工况分析步/输出) · 求解后处理(导INP/daemon求解/读db/存盘)。当用户要 GFE/PrePo 建模/参数化建几何/车站/基坑/隧道/SSI/施工分析/调参重跑、问命令流某API怎么写、查GFE避坑或案例、YJK→GFE、FreeCAD→GFE、DWG断面→几何→GFE 时使用。既能建模又能调参。未装 FreeCAD程序/freecad-MCP/YJK/DWG转DXF工具时主动提示安装。
 ---
 
-# GFE 端到端自动建模
+# GFE 端到端自动建模 —— 能力盘
 
-三块能力，按需组合：**①知识查询(在线) ②FreeCAD MCP 建几何 ③GFE noGUI 命令流**。
-典型链：DWG断面 →[ODA转DXF]→ FreeCAD MCP 建几何 →[exportStep]→ GFE noGUI(分拣/网格/属性/施工) →[inpio]→ INP。
+## 用法总则（怎么用这个 skill）
 
-## ① 知识查询（在线，无需本地库）
+拿到 GFE 建模任务，你（AI）自己：
+1. **明确需求**——什么结构？什么分析(静力/施工分阶/SSI动力/损伤/模态/反应谱…)？要不要土？要不要配筋？输出什么？**不清楚就问用户**。
+2. **对照能力盘**——看下面你掌握哪些能力、各能做什么、边界/断点在哪、入口怎么调。
+3. **选+组合+调用**——按需求从能力里挑、拼、正确调用。
+   - **怎么拼**：不确定能力怎么组合 → 查 ⓪ 案例库(`paths` 15 章找相似工程的建模路径)**参考拼法** → 拼出方案**先与用户对齐**(说清走哪几个能力、为什么、断点在哪)→ 再执行。
+   - **不套固定流程、不背组合模板**（流程因任务而异，案例库是参照不是模板）；任何 GFE 具体范式/API/坑/挂接不确定，**先查 ⓪，别凭记忆**。
 
-数据托管 **github.com/Ncight/gfe-kb-cli**。答 GFE 命令流 API 签名/避坑前**先在线查准，别凭记忆**。
-- 取文件（公开 repo）：WebFetch `https://raw.githubusercontent.com/Ncight/gfe-kb-cli/main/kb/raw/<文件>`
-- 关键文件：`GFE-CmdKB-APIref.src.md`(787API签名) / `-pitfalls`(149避坑) / `-capability`(能力矩阵①②③) / `-objref`(模块引用规则) / `-paths`(15章案例建模路径)
-- 全文搜：`gh search code "<词>" --repo Ncight/gfe-kb-cli --limit 20`
-- 关联：WebFetch `kb/wiki/{entities,concepts,summaries}/*.md`（GFE↔论文↔概念双链）
+**划分原则**：能力按**功能/流程位置**归类，**不按 API 在哪个模块**（如 `geotool.copy_mesh` 归网格 B3、`geotool.convert_material` 归参数 B4，虽都挂在 geotool 模块）。
 
-## ② FreeCAD MCP 建/改几何（`mcp__freecad__*`）
+---
 
-实时驱动 FreeCAD 建几何、改参数、出 STEP 给 GFE。工具：`create_document`/`create_object`/`edit_object`/`delete_object`/`execute_code`/`get_view`/`get_objects`/`run_fem_analysis`。
-- **建几何**：`execute_code` 跑 Part API（`makePolygon`/`Face`/`Shell`/`sewShape`/`makeCompound`/`makeLine`），按绝对 3D 坐标摆面/线（与 GFE 同 OCC 内核，STEP 无损）。
-- **调参**：`edit_object` 改尺寸 → `get_view` 看 → 重导 STEP。
-- **出 STEP**：`execute_code` 跑 `comp.exportStep(r"E:\...\x.step")`。
+## 能力盘
 
-**前置依赖（未满足必须主动提示用户装，并给命令）**：
-1. **FreeCAD 程序** — 本机 `D:\FreeCAD 1.1`。未装 → 提示装 FreeCAD 1.0/1.1（freecad.org）。
-2. **freecad MCP** — 已 `pip install freecad-mcp`（本机✓）+ addon 落位 `%APPDATA%\FreeCAD\v1-1\Mod\FreeCADMCP`（✓）+ `claude mcp add freecad`（✓ Connected）。
-3. **⚠ 关键运行前提**：`mcp__freecad__*` 调用失败/超时 = **FreeCAD GUI 没开 或 没激活 MCP workbench**。提示用户：**打开 FreeCAD → Workbench 下拉选 "MCP Addon" 激活**（addon 才起 RPC server，MCP 工具才通）。
-- 不想开 GUI 时，几何也可走无头 `freecadcmd`：`& "D:\FreeCAD 1.1\bin\freecadcmd.exe" 脚本.py`（跑 Part API 出 STEP，不依赖 MCP/GUI）。
-- **⚠ 当前 session 没有 `mcp__freecad__*` 工具时**（MCP 是 session 运行中 add 的、要重启 Claude Code 才加载）→ **fallback 直连 RPC**（等效，不依赖 session 工具）：
-  ```python
-  from freecad_mcp.freecad_client import FreeCADConnection
-  c = FreeCADConnection()              # localhost:9875 (FreeCAD GUI 开+MCP Addon激活)
-  c.ping()                              # True=通
-  c.execute_code("import FreeCAD,Part; d=FreeCAD.newDocument('X'); ...")  # 跑任意 FreeCAD python
-  c.create_document(name); c.create_object(doc, obj_data); c.edit_object(...)
-  ```
-  用 `py 脚本.py`(PowerShell, $env:PYTHONUTF8=1) 跑即控制 GUI 里的 FreeCAD。实测 PING True + execute_code 建几何成功。
+### ⓪ 知识检索（元能力，撑起其余全部）
+- **做什么**：在线查 GFE 命令流全知识——787 API 签名 / 149 避坑 / 能力矩阵(①命令流②半自动③纯GUI) / 15 章案例建模路径 / 对象引用挂接规则 / wiki 关联(GFE↔论文↔概念)
+- **入口**：WebFetch `https://raw.githubusercontent.com/Ncight/gfe-kb-cli/main/kb/raw/<文件>`（公开 repo）；全文搜 `gh search code "<词>" --repo Ncight/gfe-kb-cli`
+- **关键文件**：`GFE-CmdKB-APIref.src.md`(API签名) `-pitfalls`(避坑) `-capability`(能力矩阵) `-objref`(挂接规则) `-paths`(15章案例) ；wiki `kb/wiki/{entities,concepts,summaries}/`
+- **边界**：只 GFE 命令流知识（YJK/FreeCAD 的 API 查各自源）
 
-## ③ GFE noGUI 命令流（`PrePo.exe py-script=`）
+### 建模端（产几何）— 按结构类型/来源选最省，土体一律走 B2
+| 能力 | 做什么 | 入口 | 边界 |
+|---|---|---|---|
+| **A1 YJK** | 正交框架/地下室/明挖箱型车站/箱涵 → **带配筋**双ydb | YJK API python310（见落地参考） | 仅正交标准层；盾构/圆/曲线不行；需双ydb |
+| **A2 FreeCAD** | 任意**异形**结构几何(盾构/曲线/复杂) → STEP | `mcp__freecad__*` / 直连RPC / freecadcmd | 只几何无FE属性；不建土 |
+| **A3 GFE原生** | 规则几何/隧道/支护 → 直接在GFE里建 | `draft`草图+`geoprim`布尔+`occ`基本体+`geotool.build_tunnel_shape` | 极复杂异形不如FreeCAD |
+| **A4 直导已有** | 有现成几何就别重建 | STEP/IGES→`open_geometry`；INP→`open_inp`；ydb→`import_yjk` | — |
 
-`E:\GFE2026\program\PrePo.exe` 无界面跑命令流：导几何→分拣→网格→截面材料→施工分析→导INP。
-- 调用：`& "E:\GFE2026\program\PrePo.exe" "py-script=脚本.py"`（PowerShell，先 `$env:PYTHONUTF8=1`）
-- 脚本要点（完整范式见记忆 `reference_gfe2026_nogui` + 在线 `paths`）：
-  - `import GFE` + `import builtins as B`（环境遮蔽 set/round，用 B.set/B.round/B.abs/B.len）
-  - 导几何 `GFE.io.get_current().open_geometry(step, name)`；取 shape `geo_mgr().find(name).shape()`
-  - 分拣 `GFE.geometry.geotool.children(shape, 4=FACE/6=EDGE)` + `centre_of_mass`(返回 list)
-  - 建土 `soil.box_builder`(set_height/set_parameter/build) + `data_builder`(layer_shape/layer_material/build)
-  - 嵌入 `geoprim.builder().merge(['Soil-1','结构'],False,'')`→Merge-1（共节点；纯面/线 split 无效用 merge）
-  - 网格 `mesh_generator.controller()` **必须给全 number_option(15键)+user_option+geom_to_type+generate_dim=3+auto_transfinite=False**（缺键C++崩；超限法死循环）
-  - 析取 `geotool.copy_mesh(几何集, True, False, 'S3'/'B31', 前缀)`（面→S3壳/线→B31梁，**官方'S3'非'S3R'**）
-  - 截面 `property_solid/shell/beam`（beam.shape=1矩形BOX/3圆/2工字, integral_point=5）赋单元集
-  - 施工 `case.case()` .steps/.elemDel['步']/.elemAdd['步']（生死单元，土用几何集名/结构用copy_mesh集名）
-  - 导出 `GFE.io.inpio.writer(path).set_case(c).perform()`（命令流无 save_pre，存盘走 GUI 或导 INP）
-- **调参重跑**：改脚本顶部参数（尺寸/土层/网格/施工阶段）重跑 PrePo，脚本幂等（开头 delete_all）。
+### B GFE 模型处理（几何→可解模型）— 核心，按流程
+| 能力 | 做什么（命令流①可全自动） |
+|---|---|
+| **B1 几何组织** | 导入 + 坐标分拣(`geotool.children`/`centre_of_mass`→gset几何集) + 嵌入(`geoprim.merge`共节点；纯面/线 split 无效用 merge) |
+| **B2 土体** ★一律走这 | `soil.soil`一维(层厚/材料/基岩/深向) → `box_builder`+`data_builder`三维(**自动产**分层集+LayerProp截面+一维"计算"出Vs/50建议网格) + `build_non_uniform_soil`非均匀 |
+| **B3 网格** | 划分(`generator.mesh`+`controller`**全键**,auto_transfinite=False) + 线控/扫掠 + **析取(`copy_mesh`:几何集→命名单元集+换'S3'壳/'B31'梁+共节点)** + 查找(`mesh_data`)。断点:二阶C3D10转换(GUI/INP直写) |
+| **B4 参数** | 材料(`elastic`/`concrete_damaged`CDP/`mohr_coulomb`/Davidenkov/阻尼 + YJK `convert_material`/`convert_reinforce`) + 截面(`property_solid/shell/beam`)。挂接见落地参考 objref 表 |
+| **B5 连接边界** | 连接(`surface_pair`Tie/`contact`/`embed`/`connector`/`spring_dashpot`地基弹簧/`special_interaction`拉压异性·只压·带材料Tie) + 边界(`boundary` type全谱 + 初始条件InitGeostaticStress) + 人工边界(`art_bc`,SSI) |
+| **B6 荷载** | 集中力/重力体力(type7,value=[0,0,-9.8])/压力/线荷载 + 地震(`vibra_load`+`compute_era`场地反应) |
+| **B7 工况/分析步** | 步**全谱**(static/geo_static/dynamic_explicit·implicit/frequency模态/modal_dynamic/response_spectrum反应谱/steady_dyn频响+global_damping) + `case`装配(steps/bcs/生死单元elemDel·elemAdd/vload/artbc/fieldReqs)。**施工分阶=生死单元序列** |
+| **B8 输出** | `output` field/history/envelope request |
 
-## ④ FreeCAD→GFE 信息挂接规则（STEP 只传几何骨架，②~⑨ 全在 GFE 端补）
+### ⚑ 导出前自检（B 完成 → C 之前必过一遍；GFE 漏挂静默不报，不自检会跑错）
+- **数量**：gset/elset/材料/截面/分析步 `count()` == 预期
+- **单位自洽**：E[kPa](C40~3.25e7)·ρ[t/m³]·坐标[m]·g=9.8
+- **挂接完整**：截面 `.elset_name`/`.mat_name` 指向存在的集/材料；BC/Tie/工况/输出 引用的集都存在(不存在静默失效)
+- **漏挂**：每分析步该挂的 BC/荷载/生死单元/输出 都挂了
+- **几何/网格**：分拣无遗漏面边(warn) · 嵌入界面共节点 · 无畸形单元
 
-STEP/几何只传 **构件几何+坐标+拓扑(①)**。其余 8 类「几何之外」信息 STEP 不带，全在 GFE 命令流补：
+### C 求解 / IO / 后处理 — 多断点，命令流到 C1 为止
+| 能力 | 状态 |
+|---|---|
+| **C1 导出** | `inpio.writer`(INP/INPX) + `export_mat` ← **命令流终点** |
+| **C2 求解** | ⚠ 无API → CLI `gfe -daemon -dat <INP> -gfedir <目录>` / `PrePo -daemon`（GFEXC-CPU / GFEXG-GPU） |
+| **C3 后处理** | ⚠ 云图/动画/层间位移角/轴压比 = 纯GUI；**可脚本读 `.db` SQLite** |
+| **C4 存盘** | ⚠ `.pre` 无API → GUI File→Save 或桥 |
 
-| 信息 | 命令流对象.字段 | 引用集类型 |
-|---|---|---|
-| ①构件标识 | `gset_basic(name)+set_shapes+gset_mgr.add` | 几何集 gset（坐标分拣建） |
-| ②单元离散 | `copy_mesh(gset,type_name)` / 网格 controller | gset→elset |
-| ③截面 | `property_shell/beam/solid` `.elset_name`+`.mat_name` | elset_name= gset 或 copy_mesh elset |
-| ④材料 | `material.material .as_elastic/.entries`; `mat_mgr.add` | 被截面 `.mat_name` 引用 |
-| ⑤连接 | `merge`(共节点) / `surface_pair`(Tie) / `embed` | Tie/接触=**表面集对**; embed=gset/elset |
-| ⑥边界 | `boundary(.set,.valid_dof,.value)` / `art_bc(.surface,.structure)` | 约束=gset/nset; 人工边界=**表面集** |
-| ⑦荷载 | 压力=`.surface` / 集中力=`.nset_name` / 体力重力=`.elset_name`(type7,value=[0,0,-9.8]) / `vibra_load`(地震) | 见左 |
-| ⑧工况生死 | `case(.steps,.bcs[步],.elemDel/elemAdd[步],.vload,.artbc,.fieldReqs)`; `case_mgr.add` | elemDel/Add= gset 或 elset |
-| ⑨输出 | `output_request(.sub_output=[node_output/element_output(variables)])`; field_mgr | gset 或整模型 |
+### 全局锚点（高频铁律，推理直接用、不必每次查）
+单位 **m-t-s→kN/kPa**(E[kPa]/ρ[t/m³]/g9.8) · **土一律GFE内置(B2)** · `auto_transfinite=False`(嵌入面线防卡死) · `copy_mesh` 用 **'S3'非'S3R'** · **无save_pre** · **漏挂工况静默不报**(必自检) · 几何语义靠**自建「构件→坐标判据」JSON**(不靠STEP命名,STEP丢Label/Group)
 
-**集合铁律 4 条**：**gset 几何集**→截面/BC/体力/生死单元；**surface 表面集**→压力/Tie/接触/人工边界；**nset 节点集**→集中力；**elset 单元集**→copy_mesh 产物(结构面线 S3/B31)/线荷载。（坑：截面/生死单元 `elset_name` 填几何集名也行——GFE 网格后几何集≈同名单元集，土用几何集名/结构用 copy_mesh elset 都实测成功）。完整规则在线查 `objref`。
+---
 
-**判据表做法（构件语义不靠 STEP 传）**：几何是我建的→**构件身份我天然知道**，不靠 STEP 命名（STEP 丢 Label/Group）。建几何时**同步吐「构件→坐标判据」JSON**（标高 z / 横坐标 x / 朝向），GFE 端按判据 `children`+`centre_of_mass` 分拣，不依赖 STEP 命名或 FreeCAD GUI。headless `freecadcmd` 也能做（更干净）。
+## 落地参考（选了能力后怎么调：入口细节 / 坑 / 安装）
 
-## DWG → DXF（管线起点）
+### ⓪ / 在线查用法
+大文件(APIref/capability)可先 `gh search code` 定位再精取；WebFetch 取回在内容里找目标段。
 
-车站/基坑断面常是 DWG。**推荐装 ODA File Converter**（免费，opendesign.com）转 DXF：本机若有 `ODAFileConverter.exe` 直接批转；FreeCAD 也能 Import 部分 DXF。未装 → 提示装 ODA File Converter。DXF 进 FreeCAD（`Import` 或 `Draft`/`importDXF`）→ 提形/拉伸成几何。
+### A1 YJK 入口（记忆 `yjkapi-pipeline`；本机 setup 已完成，直接可用）
+- 跑：`$env:PATH="D:\YJKS\YJKS_8_0_0;"+$env:PATH`；cwd=安装目录；`& "D:\YJKS\YJKS_8_0_0\python310\python.exe" script.py`；脚本 `from YJKAPI import *`。
+- 文法：`DataFunc()`→`StdFlr_Generate(层高)`→`ColSect_Def/BeamSect_Def/WallSect_Def(6,1,"b,h")`→`Joint_Generate(sf,x,y)`(mm)→`Grid_Generate`→`column/beam/wall_arrange`→`slab_arrange(SlabCreateInfo,cx/cy须int)`→`Floors_Assemb`→`DbModel_Assign()`→`Hi_AddToAndReadYjk(model).CreateYDB(目录,"dtlmodel.ydb")`。已有 `_build_station_yjkapi.py`(箱型车站)。
+- **双ydb**：CreateYDB 只产 `dtlmodel.ydb`；GFE 要 `dtlmodel`+`dtlCalc` 两份，**dtlCalc 须 YJK 前处理生成**(YJK 导入dtlmodel→保存→「前处理及计算→生成数据」)。
+- **GFE 导入(ch10)**：`io.get_current().import_yjk(目录, yjk_para(43元整数), ['',''], True, '', False)` + `document.set_application_by_ui()`→自动产 SuperStru+构件集+截面+材料+配筋+工况。⚠ yjk_para 不能跨案例照抄(查 paths ch10/11/15)。
+- ✅ 本机已替 5 dll+python310，`import YJKAPI` 实测 OK；换新机才需重做(关yjks.exe+用户授权,旧dll备份 `_dll_backup`)。
 
-## 单位 / 铁律（高频）
+### A2 FreeCAD 入口
+- 工具 `mcp__freecad__*`：create_document/create_object/edit_object/execute_code/get_view/get_objects/get_parts_list/run_fem_analysis。建几何走 `execute_code` 跑 Part API(makePolygon/Face/Shell/sewShape/makeCompound/makeLine/revolve/sweep/布尔)，出 STEP `comp.exportStep(path)`。
+- ⚠ 运行前提：`mcp__freecad__*` 失败/超时 = FreeCAD GUI 没开或没激活 workbench → 提示用户**开 FreeCAD → Workbench 下拉选 "MCP Addon"**(起 RPC)。
+- 无 GUI：headless `& "D:\FreeCAD 1.1\bin\freecadcmd.exe" 脚本.py`。
+- session 无 `mcp__freecad__*` 工具(中途 add 要重启)→ 直连 RPC：`from freecad_mcp.freecad_client import FreeCADConnection; c=FreeCADConnection()`(localhost:9875); `c.ping()`/`c.execute_code(code)`。
 
-**全链统一 m-t-s → kN/kPa**（力 kN / 应力·模量 kPa：C40 `E=3.25e7 kPa`、`ρ=2.5 t/m³`、土 c[kPa]/φ[°]、g=`9.8 m/s²`；= Abaqus 自洽 SI-m 体系）。**FreeCAD 建模数值按 m 填（非 mm）**——实证 STEP→GFE `open_geometry` 数值一致传递。β=0（显式动力稳定）；`auto_transfinite=False`（嵌入面线防卡死）；命令流无 save_pre。详见记忆 `feedback_unit_convention` + 在线 `pitfalls`。
+### A3/A4 GFE 原生建 / 直导
+draft 草图(add_line/arc/circle/polyline+约束+变换→export)→geoprim(extrude/cut/merge/common/split)；occ.brep_prim(make_box/sphere/cylinder/cone/torus)；隧道 `geotool.build_tunnel_shape`。直导 `io.get_current().open_geometry/open_inp/import_yjk`。
+
+### B / GFE noGUI 调用（范式见记忆 `reference_gfe2026_nogui` + 在线 `paths`）
+- 调用：`& "E:\GFE2026\program\PrePo.exe" "py-script=脚本.py"`（PowerShell 先 `$env:PYTHONUTF8=1`）。
+- 脚本：`import GFE` + `import builtins as B`(环境遮蔽 set/round/abs，用 B.*)；坐标 `centre_of_mass` 返回 list；FACE=4/EDGE=6/SOLID=2。
+- B3 网格 controller **必须给全** number_option(15键)+user_option+geom_to_type+generate_dim=3+auto_transfinite=False(缺键C++崩)。
+- **调参重跑**：改脚本顶部参数(尺寸/土层/网格/工况)重跑 PrePo，脚本幂等(开头 delete_all)。改几何参数若涉结构→重跑 A1/A2 重出几何；只改 GFE 参数/工况→只重跑 B 脚本。
+
+### B4/B5 挂接规则（objref；集合类型铁律）
+- **gset 几何集**→截面`.elset_name`/BC`.set`/体力/生死单元`elemDel·Add`；**surface 表面集**→压力/Tie`first·second_surf`/接触/人工边界`art_bc.surface`；**nset 节点集**→集中力；**elset 单元集**→copy_mesh产物(结构面线S3/B31)/线荷载。
+- 坑：截面/生死单元 `elset_name` 填几何集名也行(GFE网格后几何集≈同名单元集；土用几何集名/结构用copy_mesh elset 都实测成功)。完整查在线 `objref`。
+
+### DWG → DXF（管线起点之一）
+断面常是 DWG → **ODA File Converter**(免费 opendesign.com)转 DXF → FreeCAD `Import`/`importDXF` 提形拉伸。未装 → 提示装 ODA。
+
+### 安装依赖（未满足主动提示+给命令）
+FreeCAD程序(D:\FreeCAD 1.1) · freecad-mcp(pip+addon→`%APPDATA%\FreeCAD\v1-1\Mod`+`claude mcp add`,✓Connected) · YJK(D:\YJKS,✓) · ODA转DXF · GFE2026(E:\GFE2026,✓)。
 
 ## 与既有 skill 关系
-
-`gfe-command-stream`（读 D:\GFE\GFE_KB 整库做深度建模/桥）侧重知识全量；本 skill 是**端到端动手**：在线速查 + FreeCAD MCP 建几何 + GFE 命令流跑通 + 调参。
+`gfe-command-stream`(读 D:\GFE\GFE_KB 整库做深度建模/桥)侧重知识全量；本 skill 是**能力盘 + 端到端动手**：在线速查 + 多源建模 + GFE 处理 + 调参。
