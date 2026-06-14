@@ -209,10 +209,12 @@ my.CreateYDB(r"...\yjk_station", "dtlmodel.ydb")
 
 ---
 
-## 2. 基础筏板 (JCCAD) → 重写 `Jccad_0.ydb`
+## 2. 基础 (JCCAD) → 重写 `Jccad_0.ydb`
 
-**目标**: 在初始 `Jccad_0.ydb`(由基础模块「重新读取」生成)上, 用 `JcDataFunc` 布筏板/桩/承台, 重写 `Jccad_0.ydb` 供 GFE 读成 Raft。
+**目标**: 在初始 `Jccad_0.ydb`(由基础模块「重新读取」生成)上, 用 `JcDataFunc` 布**筏板 / 桩+承台**, 重写 `Jccad_0.ydb` 供 GFE 读成 Raft/桩。
 **命名空间**: `from YJKAPI import *`。
+
+> ★**基础选型规则(默认筏板)**: YJK 建模**默认用筏板基础**(范式 2B), 适配一般地基; 软土深厚 / 高层重载 / 抗浮需求时改**桩基础**(范式 2C, 桩+承台)。两种基础**都必须产出 `Jccad_0.ydb`**——GFE `import_yjk` 三件 ydb(dtlmodel+dtlCalc+Jccad_0)缺一不可, 基础类型不同只是 Jccad_0 里布的构件不同(筏板 vs 桩+承台), 导入流程完全一致。**AI 默认走 2B 筏板**; 用户明确要桩基、或场地为软土深厚时走 2C。
 
 ### 2A. 前置(脚本不可替代, 基础设计依赖上部计算结果)
 1. 范式1 已产 `dtlmodel.ydb`。
@@ -220,7 +222,7 @@ my.CreateYDB(r"...\yjk_station", "dtlmodel.ydb")
 3. 进基础(JCCAD)模块 → 点「重新读取」/命令 `jccad_read` [CUI✓] → 生成初始 `Jccad_0.ydb`(把上部节点/网格/荷载导进基础模块)。
    - **注意**: 实测「重新读取上部数据」命令是 **`jccad_read`** [实测✓], **不是** `jccad_read_by_ydb`(后者在 CUI dump 中查无, 仅见于旧案例注释)。
 
-### 2B. JCCAD 脚本布筏板 最小骨架 (源: 案例11 jc_model.py [案例✓] + build_raft_jc.py [未headless验证])
+### 2B. 【默认】筏板基础 — JCCAD 脚本布筏板 最小骨架 (源: 案例11 jc_model.py [案例✓] + build_raft_jc.py [未headless验证])
 ```python
 import os, glob
 from YJKAPI import *
@@ -245,19 +247,28 @@ for f in glob.glob(os.path.join(PROJ, "Jccad_0*")):
 ok = jc.CreateYDB(PROJ, "Jccad_0.ydb")
 # 之后回 YJK 命令行再执行一次重新读取(范式2A第3步), 再 GFE import_yjk 即得 Raft
 ```
-**可选构件**(同源案例11, 桩基 SSI 常用):
+### 2C. 桩基础 (备选: 软土深厚/高层重载/抗浮) — 桩 + 承台 最小骨架 (源: 案例11 jc_model.py [案例✓])
+前置同 2B(`ReadJcYdb` 初始 Jccad_0 + 打印 `nodes` 核坐标); 下面只示基础构件部分, **收尾(删旧 Jccad_0* + CreateYDB)同 2B**。
 ```python
-# 桩: JcPile_Def(类型, "桩径,...") → JcPile_App(lID, node, ...)
-PileDef = jc.JcPile_Def(2, "800,200,300,500,25.0,1")
-jc.JcPile_App(PileDef.lID, nodes[0], -1, 0.0, 10)
-# 承台: JcDais_Def(...) → JcDais_Cir(角点) → JcDais_StepH(...) → JcDais_App(node, lID, ...)
-DaisDef = jc.JcDais_Def(10, 2, 1, 4, 100, 100)
-jc.JcDais_Cir(DaisDef.DaisFlag, 0, 1500, 1500)
-jc.JcDais_App(nodes[0].ID, DaisDef.lID, 100, 100, 60, 10, -1.5, 1)
-jc.JcPile_App(PileDef.lID, 750, 750, 0, DaisDef.DaisFlag, 0.0, 10, -1.5, 1)
-# 独基/地基梁/拉梁/条基/柱墩: JcDj_Def/JcDJ_App, JcFbeam_Def/_App, JcLL_Def/_App, JcTJ_Def/_App, JcZD_Def
+m = jc.GetJcModelDBdata().ToPyList(); nodes = m.m_jcNode
+# 桩: JcPile_Def(类型, 参数串) → JcPile_App 布置
+PileDef = jc.JcPile_Def(2, "800,200,300,500,25.0,1")   # 类型2; 参数串(桩径/桩长等)语义参照案例11, 未逐位核实
+jc.JcPile_App(PileDef.lID, nodes[0], -1, 0.0, 10)       # 按节点布单桩
+# 承台(方形): Def → Cir(角点,可多次围多边形) → StepH(台阶高) → App(布到节点)
+DaisDef = jc.JcDais_Def(10, 2, 1, 4, 100, 100)          # 第2参 2=方形承台(0=圆形)
+for cx, cy in [(1500,1500), (-1500,1500), (-1500,-1500), (1500,-1500)]:
+    jc.JcDais_Cir(DaisDef.DaisFlag, 0, cx, cy)
+jc.JcDais_StepH(0, 0, 301)
+jc.JcDais_App(nodes[0].ID, DaisDef.lID, 100, 100, 60, 10, -1.5, 1)  # 布承台到节点
+# 承台下群桩(相对承台坐标 + DaisFlag)
+for px, py in [(750,750), (750,-750), (-750,750), (-750,-750)]:
+    jc.JcPile_App(PileDef.lID, px, py, 0, DaisDef.DaisFlag, 0.0, 10, -1.5, 1)
+# 圆形承台变体: JcDais_Def(10,0,1,4,100,100) + JcDais_Cir(DaisDef.DaisFlag, 半径)
 ```
-**坑**(案例11 文件头注释明示, 重要):
+**桩基础坑**: `JcPile_Def`/`JcDais_Def` 参数串各位语义官方案例未注释——按案例11 原值起步, 再在 YJK GUI 对照微调; 桩/承台坐标同样须与 `ReadJcYdb` 实际 `nodes` 对齐。
+**其他基础构件**(同源案例11, 按需): 独基 `JcDj_Def`/`JcDJ_App` · 地基梁 `JcFbeam_Def`/`_App` · 拉梁 `JcLL_Def`/`_App` · 条基 `JcTJ_Def`/`_App` · 柱墩 `JcZD_Def`。
+
+### 2D. 筏板/桩 通用坑 (案例11 文件头注释明示, 重要):
 - 完成布置后须**先删 YJK 项目目录下 `Jccad_0.ydb`, 再 CreateYDB 生成**(避免累加)。
 - 之后在 YJK 命令行执行重新读取命令(`jccad_read`)**, 不要点导入 ydb 按钮**——按钮会**累加**(旧版 bug)。
 - 循环读写 ydb 时, 当前读取的须是**上一循环生成的** ydb。
