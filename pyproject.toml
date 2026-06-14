@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gfekb"
+version = "0.1.0"
+description = "GFE 命令流知识库 CLI — OB 双层(raw 精确 / wiki 双链关联 / 全文语义)"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []   # 纯标准库, 零依赖
+
+[project.scripts]
+gfe = "gfekb.cli:main"
+
+[tool.setuptools]
+packages = ["gfekb"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+gfekb = []
