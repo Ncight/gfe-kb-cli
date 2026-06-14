@@ -1,0 +1,556 @@
+exportIFC_USDToIFC	导出IFC
+Y2DP_LoadCheck	用于提供各层荷载简图，并对荷载做各种统计输出，便于用户校核
+yjk_Edit_Param	成批修改构件的布置参数
+Y2D_arrange_pick	点取一个已经布置好的构件把它布置到其它位置
+Y2D_def_pick	点取一个已经布置好的构件截面定义替换原构件截面定义
+Y2D_nodemergedistance	程序将不大于某距离值的节点归并到一起
+y2dSpre_showcheckb	从模型中查看计算前处理数检报告
+Y2D_showsection	显示构件的截面尺寸或偏心等信息
+YJKtoIFC_expJCIFC	导出基础IFC
+Y2D_arrange_SubBeam	布置次梁构件
+Y2D_subbeam_paralleline	用平行线方式把墙连同它上面的轴线一起输入
+Y2D_Edit_Move_subbeam	移动次梁
+Y2D_Edit_Copy_subbeam	复制次梁
+Y2D_beamY_add	梁加腋
+Y2D_beamY_delete	删除梁腋
+y2d_delete_custom	
+y2d_delete_column	
+y2d_delete_beam	
+y2d_delete_brace	
+y2d_delete_node	
+Y2D_delete_grid	
+TC2D_Set_ProjectModelTypeInCommon	隧道地沟模型类型设置
+TC2D_Set_ModelConcreteGradeSetInCommon	隧道地沟模型材料设置
+TC2D_Cal_SoilLayerImportAndCalCmd	地质资料土层导入
+TC2D_Create_TunnelAndChannel2DInCommon	隧道地沟快速建模
+TC2D_Arrange_Tunnel_OutsideFrameShowInCommon	初衬显示开关
+TC2D_Arrange_FrameJCFactorSetInCommon	构件基床系数设置
+TC2D_arrange_load_TunnelGlobalInfoSetInCommon	隧道模型总信息设置
+TC2D_arrange_load_AutoSurrRockPressInCommon	围岩压力
+TC2D_arrange_load_ChannelGlobalInfoSetInCommon	地沟模型总信息设置
+TC2D_arrange_load_AutoChannelModelLoadInCommon	地沟模型自动荷载
+TC2D_Set_ProjectModelType	隧道地沟模型类型设置
+TC2D_Set_ModelConcreteGrade	隧道地沟模型材料设置
+TC2D_Create_TunnelAndChannel2D	隧道地沟快速建模
+TC2D_Arrange_Node	直接绘制节点
+TC2D_Node_Divide	定数等分
+TC2D_Node_Dividemeasure	定距等分
+TC2D_Arrange_Lines	创建连续直线
+TC2D_Arrange_TwoLines	点击两点形成直线段
+TC2D_Arrange_ParalleLines	绘制一组平行的直线
+TC2D_Arrange_RadiationLines	绘制一组辐射状直线
+TC2D_Arrange_ArcThreePs	用三点创建圆弧
+TC2D_Arrange_ArcCenterStartEnd	指定圆心、起点、终点的方式创建圆弧
+TC2D_Arrange_ArcStartCenterAngle	指定起点、圆心、角度的方式创建圆弧
+TC2D_Arrange_ArcStartCenterEnd	指定起点、圆心、终点的方式创建圆弧
+TC2D_Arrange_BreakLines	绘制连续首尾相接的直线和弧线
+TC2D_Arrange_Rectangle	输入矩形两对角点绘制一个与x、y轴平行的矩形
+TC2D_Arrange_Circle	以圆心、半径方式绘制圆
+TC2D_Arrange_MultiArc	交互，选择第一个圆心、第一个圆弧起点的方式创建多圆弧
+TC2D_Arrange_OrthogonalGrids	对话框方式建立一个正交轴网
+TC2D_Arrange_ArcGrids	对话框建立一个弧线轴网
+TC2D_ImportDwg	转Autocad平面图到模型
+TC2D_Arrange_NameSingleAxis	逐根给轴线命名轴线号
+TC2D_Arrange_NameAxisBatch	成批给轴线命名轴线号
+TC2D_ShowAxises	显示或关闭轴线号
+TC2D_ClearNodesAndGrids	清除本层平面上没有用到的网格和节点
+TC2D_FormNodesAndGrids	把输入的轴线作相交计算形成网格和节点
+TC2D_Edit_Copy	复制
+TC2D_Edit_Move	移动
+TC2D_Edit_Rotate	旋转
+TC2D_Edit_Mirror	镜像
+TC2D_Edit_Delete	删除
+TC2D_Edit_Stretch	拖拽节点连带和节点相连的网格和构件
+TC2D_Edit_Extend	延伸
+TC2D_Edit_Prune	裁剪
+TC2D_Edit_TranslateNode	平移节点
+TC2D_Edit_Offset	偏移
+TC2D_Arrange_Tunnel_OutsideArc	布置隧道初衬拱圈
+TC2D_Arrange_Tunnel_OutsideWall	布置隧道初衬侧墙
+TC2D_Arrange_Tunnel_OutsideCushion	布置隧道垫层
+TC2D_Arrange_Tunnel_OutsideFloor	布置隧道底板
+TC2D_Arrange_Tunnel_OutsideFrameShow	初衬显示开关
+TC2D_Arrange_Tunnel_InSideArc	布置隧道二衬拱圈
+TC2D_Arrange_Tunnel_InSideWall	布置隧道二衬侧墙
+TC2D_Arrange_Tunnel_InsideBtmBeam	布置隧道二衬底板
+TC2D_Arrange_Channel_CoverPlate	布置地沟盖板
+TC2D_Arrange_Channel_SideWall	布置地沟侧墙
+TC2D_Arrange_Channel_BottomHaunchedBeam	布置地沟加腋底板
+TC2D_Arrange_Channel_WaterProofLayer	布置地沟防水层
+TC2D_Arrange_Channel_Floor	布置地沟垫层
+TC2D_Arrange_CoverPlateProtect	盖板保护
+TC2D_Arrange_FrameJCFactorSet	构件基床系数设置
+TC2D_Arrange_FrameModify	构件查改
+TC2D_Arrange_FrameDelete	删除
+TC2D_arrange_load_ChooseGK	工况选择查看
+TC2D_arrange_load_TunnelGlobalInfoSet	隧道模型总信息设置
+TC2D_arrange_load_AutoSurrRockPress	围岩压力
+TC2D_arrange_load_ChannelGlobalInfoSet	地沟模型总信息设置
+TC2D_arrange_load_AutoChannelModelLoad	地沟模型自动荷载
+TC2D_arrange_load_AutoVehicle	自动车辆荷载
+TC2D_arrange_load_Node	点荷载布置
+TC2D_arrange_load_Concentrate	集中荷载布置
+TC2D_arrange_load_Line	线荷载布置
+TC2D_arrange_load_Temperature	温度荷载布置
+TC2D_delete_load_Node	删除点荷载
+TC2D_delete_load_Concentrate	删除集中荷载
+TC2D_delete_load_Line	删除线荷载
+TC2D_delete_load_Temperature	删除温度荷载
+TC2D_Combination_load_LoadCoefSet	荷载分项系数
+TC2D_Combination_load_LoadCombCmd	荷载组合
+TC2D_calculate_load_Antislip	荷载抗滑移、抗浮稳定性验算
+Y2D_delete_deadload	删除已布置在构件或节点上的恒荷载值
+Y2D_arrange_load_beam_live	在梁上或墙上布置活载
+Y2D_arrange_load_column_live	布置柱间荷载
+Y2D_arrange_load_subbeam_live	在次梁上布置活载
+Y2D_arrange_load_node_live	在节点上布置活载
+Y2D_delete_liveload	删除已布置在构件或节点上的活荷载值
+y2dSpre_ParaDlg	设置计算参数
+y2dSpre_SPEC_SWITCHDRAWMODE	切换至三维单线图
+y2dSpre_SPEC_PICKSINGLE	单构件属性列表
+y2dSpre_SPECBEAM_NTF	
+y2dSpre_SPECBEAM_LL	
+y2dSpre_SPECBEAM_ZH	
+y2dSpre_SPECBEAM_ZHAUTO	
+y2dSpre_SPECBEAM_NWAZH	
+y2dSpre_SPECBEAM_HINGE1	
+y2dSpre_SPECBEAM_HINGE2	
+y2dSpre_SPECBEAM_AUTOHINGE	
+y2dSpre_SPECBEAM_SEMIHINGE	
+y2dSpre_SPECBEAM_FIX2	
+y2dSpre_SPECBEAM_SLIDE	
+y2dSpre_SPECBEAM_MENGANG	
+y2dSpre_SPECBEAM_HAONENG	
+y2dSpre_SPECBEAM_GDZJ	
+y2dSpre_SPECBEAM_GDXSW	
+y2dSpre_SPECBEAM_GDXSS	
+y2dSpre_SPECBEAM_NJZJ	
+y2dSpre_SPECBEAM_TFSX	
+y2dSpre_SPECBEAM_NGAP	
+y2dSpre_SPECBEAM_LLXSTL	
+y2dSpre_SPECBEAM_LLBRACE	
+y2dSpre_SPECBEAM_LLDSTL	
+y2dSpre_SPECBEAM_HSHELL	
+y2dSpre_SPECBEAM_BSHELL	
+y2dSpre_SPECBEAM_XYYWD	
+y2dSpre_SPECBEAM_ROOFKEY	
+y2dSpre_SPECBEAM_ZHLGEN	
+y2dSpre_SPECBEAM_ZHLSET	
+y2dSpre_SPECBEAM_SETENDRIG	
+y2dSpre_SPECBEAM_DELENDRIG	
+y2dSpre_SPECRIG_BEAM	
+y2dSpre_SPECBEAM_SETCOMBBEAM	
+y2dSpre_SPECBEAM_SETCOMBBEAMAUTO	
+y2dSpre_SPECBEAM_SETCOMBBEAMALLAUTO	
+y2dSpre_SPECBEAM_COMBBEAMBAR	
+y2dSpre_SPECBEAM_DELCOMBBEAMBAR	
+y2dSpre_SPECBEAM_DELCOMBBEAM	
+y2dSpre_SPECBEAM_SETSHEARCON	
+y2dSpre_SPECBEAM_DELSHEARCON	
+y2dSpre_SPECSOLID_ALL	
+y2dSpre_SPECVSEIS_ALL	
+y2dSpre_SPECBEAM_SPACETYPE	
+y2dSpre_SPECBEAM_CRANE	
+y2dSpre_SPECBEAM_LLGBBH	
+y2dSpre_SPECBEAM_KHBBOUND	
+y2dSpre_SPECCOLUMN_JIAO	
+y2dSpre_SPECCOLUMN_JIAOAUTO	
+y2dSpre_SPECCOLUMN_ZH	
+y2dSpre_SPECCOLUMN_MENGANG	
+y2dSpre_SPECCOLUMN_KFZ	
+y2dSpre_SPECCOLUMN_HINGE1	
+y2dSpre_SPECCOLUMN_HINGE2	
+y2dSpre_SPECCOLUMN_HINGEBOTH	
+y2dSpre_SPECCOLUMN_FIXBOTH	
+y2dSpre_SPECCOLUMN_SHEAR	
+y2dSpre_SPECCOLUMN_ZYB	
+y2dSpre_SPECCOLUMN_SPZH	
+y2dSpre_SPECCOLUMN_SILO	
+y2dSpre_SPECCOLUMN_TRUSSWEB	
+y2dSpre_SPECCOLUMN_SETENDRIG	
+y2dSpre_SPECCOLUMN_DELENDRIG	
+y2dSpre_SPECRIG_COLUMN	
+y2dSpre_SPECCOLUMN_SPACETYPE	
+y2dSpre_SPECCOLUMN_ROOFKEY	
+y2dSpre_SPECCOLUMN_STLBOUND	
+y2dSpre_SPECCOLUMN_SEISCOEF	
+y2dSpre_SPECBRACE_FIX2	
+y2dSpre_SPECBRACE_FIX2FLR	
+y2dSpre_SPECBRACE_FIX2ALL	
+y2dSpre_SPECBRACE_HINGE1	
+y2dSpre_SPECBRACE_HINGE2	
+y2dSpre_SPECBRACE_HINGEBOTH	
+y2dSpre_SPECBRACE_Y	
+y2dSpre_SPECBRACE_X	
+y2dSpre_SPECBRACE_SPZH	
+y2dSpre_SPECBRACE_JIAO	
+y2dSpre_SPECBRACE_ZH	
+y2dSpre_SPECBRACE_TRUSSWEB	
+y2dSpre_SPECBRACE_TRUSSCHORD	
+y2dSpre_SPECBRACE_ROOFKEY	
+y2dSpre_SPECBRACE_DEFDAMPER	
+y2dSpre_SPECBRACE_ADDDAMPER	
+y2dSpre_SPECBRACE_SETDAMPER	
+y2dSpre_SPECBRACE_DELDAMPER	
+y2dSpre_SPECBRACE_DISPDAMPER	
+y2dSpre_SPECBRACE_SETENDRIG	
+y2dSpre_SPECBRACE_DELENDRIG	
+y2dSpre_SPECRIG_BRACE	
+y2dSpre_SPECBRACE_SPACETYPE	
+y2dSpre_SPECBRACE_TENSEBAR	
+y2dSpre_SPECBRACE_COMPBAR	
+y2dSpre_SPECBRACE_NODEWEI	
+y2dSpre_SPECBRACE_STLBOUND	
+y2dSpre_SPECWALL_LK	
+y2dSpre_SPECWALL_OUT	
+y2dSpre_SPECWALL_LKLOAD	
+y2dSpre_SPECWALL_LLZJ	
+y2dSpre_SPECWALL_LLZJW	
+y2dSpre_SPECWALL_NGAP	
+y2dSpre_SPECWALL_LLXSTL	
+y2dSpre_SPECWALL_LLBRACE	
+y2dSpre_SPECWALL_LLDSTL	
+y2dSpre_SPECWALL_VROU	
+y2dSpre_SPECWALL_HROU	
+y2dSpre_SPECWALL_SHORT	
+y2dSpre_SPECWALL_DUAL	
+y2dSpre_SPECWALL_DXGD	
+y2dSpre_SPECWALL_DXGD2	
+y2dSpre_SPECWALL_ZXGDZJ	
+y2dSpre_SPECWALL_LLGBBH	
+y2dSpre_SPECWALL_BRW	
+y2dSpre_SPECWALL_ASSLAB	
+y2dSpre_SPECWALL_SETXBAR	
+y2dSpre_SPECWALL_DELXBAR	
+y2dSpre_SPECWALL_RIG	
+y2dSpre_SPECSLAB_RIG	
+y2dSpre_SPECSLAB_3	
+y2dSpre_SPECSLAB_6	
+y2dSpre_SPECSLAB_M	
+y2dSpre_SPECSLAB_S	
+y2dSpre_SPECSLAB_LCS	
+y2dSpre_SPECSLAB_BASE	
+y2dSpre_SPECSLAB_ALL3	
+y2dSpre_SPECSLAB_ALL6	
+y2dSpre_SPECSLAB_ALLM	
+y2dSpre_SPECSLAB_ALLBD3	
+y2dSpre_SPECSLAB_ALLBD6	
+y2dSpre_SPECSLAB_ALLBDM	
+y2dSpre_SPECSLAB_PLANARRIG	
+y2dSpre_SPECNODE_ADDM	
+y2dSpre_SPECNODE_LCS	
+y2dSpre_SPECNODE_CONS1	
+y2dSpre_SPECNODE_CONS1EX	
+y2dSpre_SPECNODE_CONS2	
+y2dSpre_SPECNODE_SUP	
+y2dSpre_SPECNODE_DSP	
+y2dSpre_SPECNODE_DELLCS	
+y2dSpre_SPECNODE_DELCONS	
+y2dSpre_SPECNODE_DELDSP	
+y2dSpre_SPECKZDJ_BE	
+y2dSpre_SPECKZDJ_BEM	
+y2dSpre_SPECKZDJ_BES	
+y2dSpre_SPECKZDJ_CL	
+y2dSpre_SPECKZDJ_BR	
+y2dSpre_SPECKZDJ_WA	
+y2dSpre_SPECKZDJ_BEGZ	
+y2dSpre_SPECKZDJ_BEMGZ	
+y2dSpre_SPECKZDJ_BESGZ	
+y2dSpre_SPECKZDJ_CLGZ	
+y2dSpre_SPECKZDJ_BRGZ	
+y2dSpre_SPECKZDJ_WAGZ	
+y2dSpre_SPECUSDC_BE	
+y2dSpre_SPECUSDC_MAIN	
+y2dSpre_SPECUSDC_SUB	
+y2dSpre_SPECUSDC_CL	
+y2dSpre_SPECUSDC_BR	
+y2dSpre_SPECUSDC_WA	
+y2dSpre_SPECMAT_BE	
+y2dSpre_SPECMAT_CL	
+y2dSpre_SPECMAT_CLDHZ	
+y2dSpre_SPECMAT_BR	
+y2dSpre_SPECMAT_BRDHZ	
+y2dSpre_SPECMAT_WA	
+y2dSpre_SPECETA_BE	
+y2dSpre_SPECETA_CL	
+y2dSpre_SPECETA_BR	
+y2dSpre_SPECETA_WB	
+y2dSpre_SPECETA_WC	
+y2dSpre_SPECETA_DELFLR	
+y2dSpre_SPECETA_DELALL	
+y2dSpre_SPECPB_BE	
+y2dSpre_SPECPB_CL	
+y2dSpre_SPECPB_BR	
+y2dSpre_SPECPB_WB	
+y2dSpre_SPECPB_WC	
+y2dSpre_SPECPB_DELFLR	
+y2dSpre_SPECPB_DELALL	
+y2dSpre_SPECPLVL_BE	
+y2dSpre_SPECPLVL_CL	
+y2dSpre_SPECPLVL_BR	
+y2dSpre_SPECPLVL_WB	
+y2dSpre_SPECPLVL_WC	
+y2dSpre_SPECPLVL_DELFLR	
+y2dSpre_SPECPLVL_DELALL	
+y2dSpre_SPECISOBUTTRESS_CL	
+y2dSpre_SPECISOBUTTRESS_BE	
+y2dSpre_SPECISOTYPE_BE	
+y2dSpre_SPECISOTYPE_CL	
+y2dSpre_SPECISOTYPE_BR	
+y2dSpre_SPECISOTYPE_WB	
+y2dSpre_SPECISOTYPE_WC	
+y2dSpre_SPECISOTYPE_DELFLR	
+y2dSpre_SPECISOTYPE_DELALL	
+y2dSpre_SPECISOENV_BE	
+y2dSpre_SPECISOENV_CL	
+y2dSpre_SPECISOENV_BR	
+y2dSpre_SPECISOENV_WB	
+y2dSpre_SPECISOENV_WC	
+y2dSpre_SPECISOENV_DELFLR	
+y2dSpre_SPECISOENV_DELALL	
+y2dSpre_SPECSTPB_HAONENG	
+y2dSpre_SPECSTPB_KHB	
+y2dSpre_SPECSTPB_YANXING	
+y2dSpre_SPECSTPB_BETAE	
+y2dSpre_SPECAD_ALL	
+y2dSpre_SPECAD_BE	
+y2dSpre_SPECAD_CL	
+y2dSpre_SPECAD_BR	
+y2dSpre_SPECAD_WA	
+y2dSpre_SPECAD_SB	
+y2dSpre_SPECAD_DELFLR	
+y2dSpre_SPECAD_DELALL	
+y2dSpre_SPECGAMA0_BE	
+y2dSpre_SPECGAMA0_CL	
+y2dSpre_SPECGAMA0_BR	
+y2dSpre_SPECGAMA0_WC	
+y2dSpre_SPECGAMA0_WB	
+y2dSpre_SPECGAMA0_DELFLR	
+y2dSpre_SPECGAMA0_DELALL	
+y2dSpre_SPECCPXS_BE	
+y2dSpre_SPECCPXS_CL	
+y2dSpre_SPECCPXS_BR	
+y2dSpre_SPECCPXS_WC	
+y2dSpre_SPECCPXS_WB	
+y2dSpre_SPECCPXS_DELFLR	
+y2dSpre_SPECCPXS_DELALL	
+y2dSpre_SPECDEL_CUSTOMDEL	
+y2dSpre_SPECDEL_FLR	
+y2dSpre_SPECDEL_ALL	
+y2dSpre_SPECDEL_FLRBE	
+y2dSpre_SPECDEL_ALLBE	
+y2dSpre_SPECDEL_FLRCL	
+y2dSpre_SPECDEL_ALLCL	
+y2dSpre_SPECDEL_FLRBR	
+y2dSpre_SPECDEL_ALLBR	
+y2dSpre_SPECDEL_FLRWA	
+y2dSpre_SPECDEL_ALLWA	
+y2dSpre_SPECDEL_FLRSB	
+y2dSpre_SPECDEL_ALLSB	
+y2dSpre_SPECDEL_FLRJD	
+y2dSpre_SPECDEL_ALLJD	
+y2dSpre_SPEC_FLOORCOPY	
+y2dSpre_TOWER_PLAN	用平面图方式显示多塔划分情况
+y2dSpre_TOWER_AUTO	根据计算参数自动划分多塔
+y2dSpre_TOWER_INPUTAREA	人工逐层划分多塔
+y2dSpre_TOWER_CLEAR	将多塔和楼层属性菜单中的所有交互指定数据清空
+y2dSpre_TOWER_ADDAREA	在某一楼层上用围区作塔号合并的操作
+y2dSpre_TOWER_CUTAREA	
+y2dSpre_TOWER_ZHEDANG	指定设缝多塔结构的背风面
+y2dSpre_TOWER_CLEARSHADE	删除本层或全楼的遮挡定义数据
+y2dSpre_TOWER_CHECK	
+y2dSpre_TOWER_ELEV	用圆圈串方式显示多塔划分状况
+y2dSpre_TOWER_TOWNO	对某些层修改自动划分形成的塔号
+y2dSpre_TOWER_TOWH	修改各层各塔的塔高
+y2dSpre_TOWER_INPUTSPLITAREA	修改多塔取大时单塔模型在某层的拆分范围
+y2dSpre_TOWER_DELSPLITAREA	删除多塔取大时单塔模型在某层的拆分范围
+y2dSpre_TOWER_PICKAFRAME	选取需要单榀二维计算的轴线
+y2dSpre_TOWER_DELAFRAME	删除输入的单榀计算轴线
+y2dSpre_TOWER_3D	用层拉伸体组成的三维模型显示多塔划分结果及楼层各种属性
+y2dSpre_TOWER_PARA	对各塔设置不同的结构属性
+y2dSpre_TOWER_TOWMAT	
+y2dSpre_TOWER_TOWJQ	交互指定加强层
+y2dSpre_TOWER_TOWDBJQ	交互指定底部加强区
+y2dSpre_TOWER_TOWYBZ	交互指定需设置约束边缘构件的楼层
+y2dSpre_TOWER_TOWGDC	交互指定过渡层
+y2dSpre_TOWER_TOWXTL	交互指定结构顶部突出屋面的小塔楼
+y2dSpre_TOWER_TOWROOF	交互指定结构主要屋面所在楼层
+y2dSpre_TOWER_RESETPROP	重置楼层属性及各层材料信息
+y2dSpre_TOWER_AUTOSGCX	按程序默认规则自动刷新施工模拟次序
+y2dSpre_TOWER_SETSGCX	手工合并或拆分楼层施工模拟次序
+y2dSpre_TOWER_SETSGCXGJ	指定单构件的施工模拟次序
+y2dSpre_TOWER_SETSGCXLIST	表格方式修改施工模拟次序
+y2dSpre_TOWER_TOWCOLUMNC	修改指定塔指定楼层的柱混凝土强度等级
+y2dSpre_TOWER_TOWBEAMC	修改指定塔指定楼层的梁混凝土强度等级
+y2dSpre_TOWER_TOWWALLC	修改指定塔指定楼层的墙混凝土强度等级
+y2dSpre_TOWER_TOWBRACEC	修改指定塔指定楼层的斜杆混凝土强度等级
+y2dSpre_TOWER_TOWSLABC	修改指定塔指定楼层的楼板混凝土强度等级
+y2dSpre_TOWER_TOWSTEEL	修改指定塔指定楼层的钢构件钢号
+y2dSpre_TOWER_TOWCOLUMNS	修改指定塔指定楼层的钢构件钢号
+y2dSpre_TOWER_TOWBEAMS	修改指定塔指定楼层的钢构件钢号
+y2dSpre_TOWER_TOWBRACES	修改指定塔指定楼层的钢构件钢号
+y2dSpre_TOWER_TOWWALLS	修改指定塔指定楼层的钢构件钢号
+y2dSpre_TOWER_MATDLG	统一修改各塔各层构件材料
+y2dSpre_TOWER_ENVFLR	指定需要进行包络设计的楼层
+y2dSpre_TOWER_ENVCOMP	指定需要进行包络设计的构件
+y2dSpre_TOWER_ENVCOMPDEL	删除已指定的包络设计构件
+y2dSpre_TOWER_ENVCLEAR	清除已指定的包络设计构件信息
+y2dSpre_SPWINDAUTO	
+y2dSpre_SPWINDAUTOGF	
+y2dSpre_WIND_AUTO+X	
+y2dSpre_WIND_AUTO-X	
+y2dSpre_WIND_AUTO+Y	
+y2dSpre_WIND_AUTO-Y	
+y2dSpre_WIND_CUSTDIR	
+y2dSpre_WIND_BZDEL	
+y2dSpre_WIND_DIRX	
+y2dSpre_WIND_DIRY	
+y2dSpre_WIND_BEAMSET	
+y2dSpre_WIND_BEAMDEL	
+y2dSpre_WIND_NODESET	
+y2dSpre_WIND_NODEDEL	
+y2dSpre_WIND_PDEVSET	
+y2dSpre_WIND_PDEVDEL	
+y2dSpre_WIND_ALLDEL	
+y2dSpre_WIND_ROOMMU	
+y2dSpre_CLMU_CLCY	
+y2dSpre_CLMU_CLNCY	
+y2dSpre_CLMU_CLNCYEX	
+y2dSpre_CLMU_BR	
+y2dSpre_CLMU_BE	
+y2dSpre_AHW_BE	
+y2dSpre_CLMU_ELEV	
+y2dSpre_CLMU_WAH	
+y2dSpre_CLMU_RESET	
+y2dSpre_TEMP_SETNODE	
+y2dSpre_TEMP_UNITEMP	
+y2dSpre_TEMP_SETGRAD	
+y2dSpre_TEMP_AUTOGRAD	
+y2dSpre_SHOWLCS	
+y2dSpre_TEMP_SHOWFIV	
+y2dSpre_TEMP_AUTOFIRE	
+y2dSpre_TEMP_DELALL	
+y2dSpre_LLCO_SETBEAM	
+y2dSpre_LLCO_SETCOLUMN	
+y2dSpre_LLCO_SETBRACE	
+y2dSpre_LLCO_SETWALL	
+y2dSpre_LLCO_SETBEAMM	
+y2dSpre_LLCO_SETCOLUMNM	
+y2dSpre_LLCO_SETBRACEM	
+y2dSpre_LLCO_SETWALLM	
+y2dSpre_LLCO_CLEARFLR	
+y2dSpre_LLCO_CLEARALL	
+y2dSpre_GENDATA	生成计算所需数据并给出数据检查文件
+y2dSpre_GEN_CHECK	打开数据检查文件Check.Out
+y2dSpre_JSJTPLAN	用平面图方式显示各层计算简图
+y2dSpre_JSJT3D	用三维轴测图方式显示计算简图
+y2dSpre_JSJT3DAT	采用取大值算法时分别显示剖分后的各塔
+y2dSpre_JSJT3DBO	施工模拟各施工步模型示意
+y2dSpre_SpecDef_BNTF	
+y2dSpre_showspecsb	
+y2dSpre_mtauto	
+y2dSpre_mtelev	
+y2dSpre_mt3d	
+y2dSpre_spwind+x	
+y2dSpre_spwind-x	
+y2dSpre_spwind+y	
+y2dSpre_spwind-y	
+y2dSpre_ViewCheck	
+YJKDesign2D_Pre_Setting	前处理-计算参数
+YJKDesign2D_Pre_PortalSign	前处理-门刚标记
+YJKDesign2D_Pre_LXYYWD	前处理-下翼缘稳定
+YJKDesign2D_Pre_Stiffener	前处理-横向加劲肋
+YJKDesign2D_Pre_WTRatio	前处理-宽厚比等级
+YJKDesign2D_Pre_CalcLength	前处理-计算长度系数
+YJKDesign2D_Pre_KZDJ	前处理-抗震等级
+YJKDesign2D_Pre_MainCom	前处理-主构件指定
+YJKDesign2D_Pre_JMSectRatio	前处理-净毛截面比
+YJKDesign2D_Pre_Material	前处理-材料强度修改
+YJKDesign2D_Pre_CXBLimit	前处理-长细比限值修改
+YJKDesign2D_Pre_ComRework	前处理-构件修改
+YJKDesign2D_Pre_FHSW	前处理-防火升温
+YJKDesign2D_Pre_LocalXYZ	前处理-局部坐标系
+YJKDesign2D_Pre_SSfactor	前处理-截面形状系数
+YJKDesign2D_Pre_GenFEA	前处理-生成数据
+YJKDesign2D_Pre_ShowFEA	前处理-计算简图
+YJKDesign2D_Pre_Calc	前处理-仅计算
+YJKDesign2D_Pre_Dsn	前处理-仅设计
+YJKDesign2D_Pre_All	前处理-生成数据并计算与设计
+YJKDesign2D_Pre_CalcAndDsn	前处理-计算并设计
+YJKDesign2D_Pre_BackToMenGang2D	前处理-返回
+YJKDesign2D_Dsn_Setting	设计结果-参数设置
+YJKDesign2D_Dsn_ComponentID	设计结果-构件编号
+YJKDesign2D_Dsn_ShowLoad	设计结果-荷载简图
+YJKDesign2D_Dsn_ShowRebar	设计结果-配筋简图
+YJKDesign2D_Dsn_ShowAntiFire	设计结果-防火结果简图
+YJKDesign2D_Dsn_ShowBeamDef	设计结果-挠度简图
+YJKDesign2D_Dsn_ShowHTRatio	设计结果-高厚比简图
+YJKDesign2D_Dsn_ShowCalcLength	设计结果-计算长度简图
+YJKDesign2D_Dsn_ShowForce	设计结果-内力简图
+YJKDesign2D_Dsn_ShowSupAntiForce	设计结果-支座反力
+YJKDesign2D_Dsn_ShowEnvelopeForce	设计结果-内力包络
+YJKDesign2D_Dsn_ShowDisp	设计结果-位移简图
+YJKDesign2D_Dsn_MultiModel	设计结果-模型切换
+YJKDesign2D_Dsn_ShowModeDef	设计结果-振型简图
+YJKDesign2D_Dsn_GrapStitch	设计结果-图形拼接
+YJKDesign2D_Dsn_ComInfo	设计结果-构件信息
+YJKDesign2D_Dsn_TextResult	设计结果-文本结果
+YJKDesign2D_Dsn_StructReport	设计结果-计算书
+YJKDesign2D_Dsn_ShowSglDtlReport	设计结果-构件详细
+YJKDesign2D_Dsn_OverlimitInfo	设计结果-超限信息
+YJKDesign2D_Dsn_CalLenCofInfo	设计结果-计算长度系数
+YJKDesign2D_Dsn_BackToMenGang2D	设计结果-返回
+y2dSpre_abaqus	YJK->ABAQUS模型转换
+y2dSpre_SpecDef	
+y2dSpre_MultiTow	
+y2dSpre_Wind	
+y2dSpre_ColMu	
+y2dSpre_TempL	
+YJKDisplay_dsprunjiagutools_XGBeamCalc	型钢混凝土构件-梁承载力计算
+YJKDisplay_dsprunjiagutools_XGColumnCalc	型钢混凝土构件-柱承载力计算
+YJKDisplay_dsprunjiagutools_XGJointCalc	型钢混凝土构件-节点核心区计算
+YJKDisplay_dsprunjiagutools	加固工具箱
+YJKDisplay_dspResetProData	多塔工程分塔模型切换
+YJKDisplay_dspResetSQKJData	少墙框架模型切换
+YJKDisplay_dspResetXNSJData	性能设计子模型切换
+YJKDisplay_dspResetXNSJGZData	隔震性能设计子模型切换
+YJKDisplay_dspResetJZData	减震设计子模型切换
+YJKDisplay_dspResetPoolData	水池设计子模型切换
+yjkdesignexport_dsnTop	整体指标计算书
+dzzl_soil_layer_param_table_BJHeat	为北京热力定制化开发的土层参数信息表
+XSteelMG_Read	
+XSteelMG_Load	
+XSteelMG_BeamSplit	
+XSteelMG_Parameter	
+XSteelMG_ParameterNode	
+XSteelMG_Design	
+XSteelMG_Dwg	
+XSteelMG_BackToMenGang2D	
+XSteel_RightView	右视图
+_lockreference	解锁锁定衬图
+Y2D_dchbz	布置吊车荷载信息
+Y2D_dchmodify	对已布置的吊车荷载参数查询和修改
+Y2D_dchseldel	删除已经布置的吊车工作区域及区域内的吊车荷载
+Y2D_dchloadshow	显示吊车荷载
+Y2D_dchshow	显示吊车
+StTool_LoadData	读数据 画底图
+StTool_FrmParamDlg	参数设置
+StTool_RoofAuto	自动布置屋面
+StTool_RoofPurlineCalc	檩条隅撑计算
+StTool_CreateWall	生成墙面
+StTool_DealDoor	设置门窗
+StTool_WalllineCalc	墙檩隅撑计算
+StTool_RoofWall3d	屋面墙面三维图
+StdSlab_MODIBhc	保护层厚度
+DtlRC_SetSectLayerMpc	剖面图图层设置
+dtlPcG_MpcCopyFlr	楼层复制
+y2dSpre_etabs	
+y2dSpre_midas	
+DTLRCD_PaperParam	图纸参数
+DTLRCD_TrenchParam	地沟参数
+DTLRCD_TunnelParam	隧道参数
+DTLRCD_TunnelDetail	绘制隧道格栅节点大样图
+DTLRCD_TunnelCrack	绘制隧道裂缝图
+DTLRCD_TunnelCrackTxt	隧道裂缝计算书
+DTLRCD_CalcGroutingVolume	注浆量计算
+DTLRCD_TrenchCrack	绘制地沟裂缝图
