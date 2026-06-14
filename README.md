@@ -6,11 +6,15 @@ GFE（广州颖力高性能有限元）命令流知识库 **CLI**。把散在 Ob
 - **raw 精确层**（`kb/raw/`）：787 API 全签名、能力矩阵、案例操作手册、命令流手册原文、对象引用关系、15 章官方命令流 py
 - **wiki 关联层**（`kb/wiki/`）：Karpathy 编译的 entity / concept / summary + `[[双链]]`（GFE ↔ 论文 ↔ 概念）
 
-## 安装
+## 用法 A：作为 Claude SKILL（在线，零安装，推荐共享）
+
+别人**不用 clone、不用装 Python**。只需把 [`skill/SKILL.md`](skill/SKILL.md) 复制到自己的 `~/.claude/skills/gfe-kb/SKILL.md`，他们的 Claude 一遇到 GFE 命令流问题，就会自动在线 WebFetch 本 repo 查（公开 repo）/ 用 `gh` 取（私有 repo）。
+
+## 用法 B：本地 CLI（更快、可离线）
 
 ```bash
-pip install -e .        # 之后全局命令 gfe
-# 或免安装直接用:
+pip install -e .        # 之后 py -m gfekb <子命令>（gfe.exe 在 Python Scripts 下）
+# 或免安装:
 python -m gfekb <子命令>
 ```
 
