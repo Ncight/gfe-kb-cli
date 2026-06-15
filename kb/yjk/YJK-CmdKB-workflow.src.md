@@ -6,6 +6,20 @@
 
 ---
 
+## ⚠ 2026-06-15 二次实测重大纠正（优先于下文旧描述）
+
+下文 §2.2（"dtlCalc 经前处理计算自动产出"）与 §5（"命令流 `import_yjk` 一把梭"）经 2026-06-15 二次地铁车站实测**证伪**，按以下修正执行：
+
+1. **dtlCalc 不是计算自动产、必须手动导出**：计算（`yjkdesign_dsncalculating_all`）只产内部结果（`sscs_*.ydb`），**不产 `dtlCalc.ydb`**。dtlCalc 必须用 **`yjkdesign_dsnExportDB`**（YJK 标题栏导出按钮）→ 弹「导出dsnModel」对话框 → **手动勾全部 6 个计算项**（导出工况振型内力/位移·面单元内力/位移·体单元内力/位移；默认只勾"导出基础数据"）→ 确定 → 产 `中间数据\dsnModel.ydb`（**272 表**）→ **改名 `dtlCalc.ydb`**。
+   - ⚠ **绝不能用 `yjk_exportydb`** 当 dtlCalc：它产 dtlmodel 副本（79 表，schema 与 dtlmodel 全同），GFE 读它刷 17× "the column name of sqlite is invalid" → **`0xC0000374` 堆损坏崩溃**。
+   - ⚠ 6 项不勾全 → 32 表精简版、无计算内力，也不对。**SQLite 表数自检**：dtlmodel/假dtlCalc=79；精简=32；真 dtlCalc(dsnModel)=**272**。
+2. **GFE 导入走用户手动 GUI，命令流 `import_yjk` 不可靠**：`yjk_para` 第8位=2"自动生成基础"实测**只建基础层、丢上部结构**（gset=8 只剩筏板）；第8位=0"读取基础"+真 dtlCalc **`0xC0000005` 访问违规崩溃**——两值都不行。**完整模型（上部+筏板）由用户在 GFE GUI 导入**（设自动生成筏板、保留上部结构）+ 存 `.pre`。
+3. **导入目录必须是工程 `施工图\` 子目录**（放 `YDB\` 等别处会读取错位 → 导入全空 gset=0）。
+4. **Jccad_0 无需布筏板**：`jccad_read` 产的初始基础（只有柱墙荷载、无筏板几何）即可，筏板由步2 的 GUI 导入时自动生成。headless `JcRaftSlab_Def/App` 布筏板仍是死路。
+5. **IPC 暖场**：连接后第一条 `RunCmd` 必须 `yjk_save` 暖场（否则卡死）；指定 `config.Pid=<yjks进程PID>` 避免"选择 yjks.exe 进程"弹窗；反复连接污染会话 → 重输一次 `yjksipccontrol` 恢复。
+
+---
+
 ## 1. 总览
 
 AI 用 YJK 建模，产出三件 ydb，再交给 GFE 一次性导入：
